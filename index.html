@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GARASANA - Soft Opening</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <style>
+        /* Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #111;
+            color: white;
+            overflow-x: hidden;
+            caret-color: transparent;
+        }
+        a, button {
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+        a:focus, button:focus { outline: none; box-shadow: none; }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            width: 100%; height: 100%;
+            background: #111;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+        }
+        #loading-screen img {
+            width: 100px; height: 100px;
+            animation: zoomInOut 2s ease-in-out infinite;
+        }
+        @keyframes zoomInOut { 0%,100% { transform: scale(1); } 50% { transform: scale(1.5); } }
+
+        /* Navbar */
+        header {
+            background: rgba(34, 34, 34, 0.8);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+        }
+        header .container {
+            width: 100%; padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        @media (min-width: 768px) {
+            header .container { max-width: 1200px; margin: 0 auto; padding: 15px 40px; }
+        }
+        .logo { display: flex; align-items: center; gap: 8px; font-weight: bold; }
+        .logo img { width: 32px; height: auto; }
+
+        /* Hero */
+        .hero {
+            position: relative; height: 100vh;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .bg-image {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -2;
+        }
+        .overlay {
+            position: absolute; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.3));
+            z-index: -1;
+        }
+
+        /* Countdown */
+        .countdown {
+            display: flex; justify-content: center; gap: 20px; margin: 20px 0;
+        }
+        .countdown div {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px; border-radius: 10px; text-align: center; min-width: 70px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+        }
+        .countdown span {
+            font-size: 28px; font-weight: bold; display: block; color: #FFD700;
+        }
+        .countdown small { font-size: 14px; color: #ddd; }
+        @media(min-width:768px){
+            .countdown span { font-size: 36px; }
+            .countdown small { font-size: 16px; }
+        }
+
+        /* Hero Content + Animasi */
+        .hero-content { margin-top: 250px; max-width: 700px; padding: 20px; }
+        .hero-content h1, .hero-content .subtitle, .hero-content .tagline,
+        .hero-content p, .hero-content #countdown, .hero-content .btn {
+            opacity: 0; transform: translateY(50px);
+        }
+        @keyframes fadeSlideUp { 
+            0% { opacity:0; transform:translateY(50px); } 
+            100%{ opacity:1; transform:translateY(0);} 
+        }
+        .hero-content.visible .subtitle { animation: fadeSlideUp 1s ease forwards; animation-delay:0.4s; }
+        .hero-content.visible h1       { animation: fadeSlideUp 1s ease forwards; animation-delay:0.6s; }
+        .hero-content.visible .tagline { animation: fadeSlideUp 1s ease forwards; animation-delay:0.8s; }
+        .hero-content.visible p        { animation: fadeSlideUp 1s ease forwards; animation-delay:1.0s; }
+        .hero-content.visible #countdown { animation: fadeSlideUp 1s ease forwards; animation-delay:1.2s; }
+        .hero-content.visible .btn     { animation: fadeSlideUp 1s ease forwards; animation-delay:1.4s; }
+
+        .hero-content h1 { font-size:48px; margin-bottom:15px; line-height:1.5; font-weight:800; }
+        .hero-content .subtitle { font-size:24px; margin-bottom:15px; font-weight:600; }
+        .hero-content .tagline { font-size:18px; margin-bottom:15px; font-weight:600; }
+        .hero-content p { font-size:16px; margin-bottom:25px; }
+        .hero-content .btn {
+            background: linear-gradient(to right,#FFD700,#FFA500);
+            padding:12px 25px; border-radius:30px; font-weight:bold; text-decoration:none; color:black;
+            box-shadow:0 3px 8px rgba(0,0,0,0.5); transition:0.3s;
+        }
+        .hero-content .btn:hover { transform:scale(1.05); }
+
+        /* Desktop */
+        @media(min-width:768px){
+            .logo img { width:48px; height:auto; }
+            .judul { font-size:26px; font-weight:bold; color:#fff; }
+            .hero-content h1 { font-size:80px; margin-top: 0%; }
+            .hero-content h2.subtitle { font-size:38px; margin-top: 0%; }
+            .hero-content h2.tagline { font-size:34px; }
+            .hero-content p { font-size:28px; }
+            .hero-content { max-width:60%; padding:20px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="img/logo.png" alt="GARASANA Logo">
+                <span class="judul">GARASANA</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Loading -->
+    <div id="loading-screen">
+        <img src="img/logo.png" alt="GARASANA Logo">
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="overlay"></div>
+        <img src="img/security-team.jpg" alt="Pengamanan" class="bg-image">
+        <div class="hero-content">
+            <h2 class="subtitle" style="margin-bottom: 2px;">Selamat Datang di</h2>
+            <h1 style="margin-top: 2px;">GARASANA</h1>
+            <h2 class="tagline">Kami adalah perusahaan pengadaan jasa Satuan Pengamanan yang berintegritas & profesional</h2>
+            <p><em>Mari hadir di acara Soft Opening kami :</em></p>
+
+            <!-- Countdown -->
+            <div id="countdown" class="countdown">
+                <div><span id="days">0</span><small>Hari</small></div>
+                <div><span id="hours">0</span><small>Jam</small></div>
+                <div><span id="minutes">0</span><small>Menit</small></div>
+                <div><span id="seconds">0</span><small>Detik</small></div>
+            </div>
+            <div style="padding-top: 10px;">
+                <a href="https://garasana.my.id/softopening/" class="btn" target="_blank" rel="noopener noreferrer">Undangan</a>
+            </div>
+            
+        </div>
+    </section>
+
+    <script>
+        // Loading fadeout
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                const loadingScreen = document.getElementById("loading-screen");
+                loadingScreen.style.opacity = 0;
+                loadingScreen.style.transition = "opacity 0.5s ease";
+                setTimeout(() => {
+                    loadingScreen.style.display = "none";
+                    document.querySelector(".hero-content").classList.add("visible");
+                }, 500);
+            }, 2000);
+        });
+
+        // Countdown Timer (WIB)
+        const eventDate = new Date("2025-10-12T00:00:00+07:00").getTime();
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+            if (distance <= 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = "<h3>🎉 Acara Sedang Berlangsung!</h3>";
+                return;
+            }
+            const days = Math.floor(distance / (1000*60*60*24));
+            const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+            const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+            const seconds = Math.floor((distance % (1000*60)) / 1000);
+            document.getElementById("days").textContent = days;
+            document.getElementById("hours").textContent = hours;
+            document.getElementById("minutes").textContent = minutes;
+            document.getElementById("seconds").textContent = seconds;
+        }, 1000);
+    </script>
+</body>
+</html>
